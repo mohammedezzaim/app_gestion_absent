@@ -1,6 +1,7 @@
 package com.mohammedezzaim.demo
 
 import StudentAdapter
+import StudentDatabaseHelper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -22,7 +23,9 @@ import java.util.ArrayList
 
 class HomeActivity : AppCompatActivity() {
 
-    var listStudent = ArrayList<Student>()
+    private lateinit var dbHelper: StudentDatabaseHelper
+    private lateinit var listStudent: ArrayList<Student>
+    private lateinit var adaptorListStudent: StudentAdapter
 
     private lateinit var imageView: ImageView
     private val PICK_IMAGE_REQUEST = 1
@@ -44,7 +47,12 @@ class HomeActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageView)
         val btnSelectImage: Button = findViewById(R.id.btn_select_image)
 
-        var adaptorListStudent = StudentAdapter(this, R.layout.item_etudiant,listStudent)
+        dbHelper = StudentDatabaseHelper(this)
+        listStudent = ArrayList(dbHelper.getAllStudents())
+
+
+
+        adaptorListStudent = StudentAdapter(this, R.layout.item_etudiant,listStudent)
 
         listViewStudent.adapter = adaptorListStudent
 
@@ -62,11 +70,13 @@ class HomeActivity : AppCompatActivity() {
                 if (idAbsent.isChecked) {
                     val status = "Absent"
                     listStudent.add(Student(studentName, status, imagePath))
+                    dbHelper.insertStudent(studentName, status, imagePath)
 
                     adaptorListStudent.notifyDataSetChanged()
                 } else if (idPresent.isChecked) {
                     val status = "Present"
                     listStudent.add(Student(studentName, status, imagePath))
+                    dbHelper.insertStudent(studentName, status, imagePath)
                     adaptorListStudent.notifyDataSetChanged()
                 } else {
 
