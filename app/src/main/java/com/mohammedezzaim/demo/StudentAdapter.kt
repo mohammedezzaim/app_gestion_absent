@@ -66,7 +66,7 @@ class StudentAdapter(
             }
         }
 
-        if (student.imagePath.isNotEmpty()) {
+        if (!student.imagePath.isNullOrEmpty()) {
             val imageFile = File(student.imagePath)
             if (imageFile.exists()) {
                 image.setImageURI(Uri.fromFile(imageFile))
@@ -76,6 +76,7 @@ class StudentAdapter(
         } else {
             image.setImageResource(R.drawable.image_profile)
         }
+
 
         btnDetails.setOnClickListener({
 

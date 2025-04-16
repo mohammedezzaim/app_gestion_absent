@@ -20,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.util.ArrayList
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeActivity : AppCompatActivity() {
 
@@ -60,7 +63,8 @@ class HomeActivity : AppCompatActivity() {
         btnSelectImage.setOnClickListener {
             openGallery()
         }
-
+// Fetch students from the API when activity is created
+        fetchStudentsFromAPI()
         btnAdd.setOnClickListener({
             val studentName = addEt.text.toString()
             val imagePath = selectedImageUri?.let { saveImageToInternalStorage(it) } ?: ""
@@ -71,12 +75,15 @@ class HomeActivity : AppCompatActivity() {
                     val status = "Absent"
                     listStudent.add(Student(studentName, status, imagePath))
                     dbHelper.insertStudent(studentName, status, imagePath)
-
+                    var student = Student(studentName, status, imagePath)
+                    addStudentToAPI(student)
                     adaptorListStudent.notifyDataSetChanged()
                 } else if (idPresent.isChecked) {
                     val status = "Present"
                     listStudent.add(Student(studentName, status, imagePath))
                     dbHelper.insertStudent(studentName, status, imagePath)
+                    var student = Student(studentName, status, imagePath)
+                    addStudentToAPI(student)
                     adaptorListStudent.notifyDataSetChanged()
                 } else {
 
@@ -98,6 +105,44 @@ class HomeActivity : AppCompatActivity() {
             }
         })
     }
+
+
+    private fun fetchStudentsFromAPI() {
+        RetrofitClient.apiService.getStudents().enqueue(object : Callback<List<Student>> {
+            override fun onResponse(call: Call<List<Student>>, response: Response<List<Student>>) {
+                if (response.isSuccessful) {
+                    listStudent.clear()  // Clear existing data
+                    response.body()?.let { listStudent.addAll(it) }  // Add new students
+                    adaptorListStudent.notifyDataSetChanged()  // Update adapter
+                } else {
+                    Toast.makeText(this@HomeActivity, "Failed to fetch students", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Student>>, t: Throwable) {
+                Toast.makeText(this@HomeActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun addStudentToAPI(student: Student) {
+        RetrofitClient.apiService.addStudent(student).enqueue(object : Callback<Student> {
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@HomeActivity, "Student added successfully!", Toast.LENGTH_SHORT).show()
+                    fetchStudentsFromAPI() // Refresh the list after adding a student
+                } else {
+                    Toast.makeText(this@HomeActivity, "Failed to add student", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
+                Toast.makeText(this@HomeActivity, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

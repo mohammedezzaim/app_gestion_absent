@@ -2,10 +2,8 @@ package com.mohammedezzaim.demo
 
 import java.io.Serializable
 
-class Student(
+data class Student(
 
-    var nom: String,
-    var status: String,
-    val imagePath: String ) : Serializable {
-
-}
+    var nom: String?=null,
+    var status: String?=null,
+    val imagePath: String )

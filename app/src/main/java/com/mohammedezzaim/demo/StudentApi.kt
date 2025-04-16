@@ -6,7 +6,7 @@ import retrofit2.http.*
 interface StudentApi {
 
     @GET("/api/students/all")
-    fun getAllStudents(): Call<List<Student>>
+    fun getStudents(): Call<List<Student>>
 
     @GET("/api/students/student/{name}")
     fun getStudentByName(@Query("name") name: String): Call<Student>
