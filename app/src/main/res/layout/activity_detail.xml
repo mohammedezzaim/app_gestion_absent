@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="26dp"
+    android:background="@color/backgroundColor">
+
+    <!-- Image de profil avec une bordure et des coins arrondis -->
+    <ImageView
+        android:id="@+id/detail_image_profile"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/image_profile"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circle_image"
+        android:clipToOutline="true"/>
+
+
+    <!-- Nom de l'étudiant avec une taille de police et un style amélioré -->
+    <TextView
+        android:id="@+id/detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student Name"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/textPrimary"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Statut de l'étudiant avec une couleur de texte améliorée et une marge pour l'espacement -->
+    <TextView
+        android:id="@+id/detail_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Absent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/red_absent"
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Section pour les boutons de statut avec un espacement uniforme et des marges -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="30dp">
+
+        <!-- Bouton "Présent" avec coins arrondis et couleur de fond -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_mark_present"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Present"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1.2"
+
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green_present"
+            android:padding="12dp"/>
+
+        <!-- Bouton "Absent" avec coins arrondis et couleur de fond -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_mark_absent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Absent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1.2"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red_absent"
+            android:padding="12dp"/>
+
+        <!-- Nouveau bouton supplémentaire -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_show_student_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Student List"
+            android:layout_weight="1.6"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/img_color"
+            android:padding="12dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

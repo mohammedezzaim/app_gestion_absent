@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">demo</string>
+    <string name="name">Nom</string>
+    <string-array name="present">
+        <item>Present</item>
+        <item>Absent</item>
+    </string-array>
+</resources>
